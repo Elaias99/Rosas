@@ -42,6 +42,13 @@ class FloralGift extends HTMLElement {
     this.audio()?.addEventListener('ended', () => { void this.next(); }, { signal });
     this.querySelector<HTMLButtonElement>('[data-replay]')!.hidden = false;
     this.querySelector('[data-replay]')?.addEventListener('click', () => { this.reset(); void this.open(); }, { signal });
+    this.querySelector('[data-coupons-open]')?.addEventListener('click', () => this.openCoupons(), { signal });
+    this.querySelectorAll('[data-coupons-close]').forEach((button) => {
+      button.addEventListener('click', () => this.closeCoupons(), { signal });
+    });
+    this.coupons()?.addEventListener('close', () => {
+      this.querySelector<HTMLElement>('[data-coupons-open]')?.focus({ preventScroll: true });
+    }, { signal });
     this.querySelector<HTMLAnchorElement>('[data-back]')?.addEventListener('click', (event) => {
       event.preventDefault(); this.reset(); this.querySelector<HTMLElement>('[data-open]')?.focus();
     }, { signal });
@@ -56,6 +63,17 @@ class FloralGift extends HTMLElement {
   private clearTimers() { this.timers.forEach(clearTimeout); this.timers = []; }
 
   private audio() { return this.querySelector<HTMLAudioElement>('[data-audio]'); }
+
+  private coupons() { return this.querySelector<HTMLDialogElement>('[data-coupons]'); }
+
+  private openCoupons() {
+    const dialog = this.coupons();
+    if (!dialog || dialog.open) return;
+    dialog.showModal();
+    this.querySelector<HTMLElement>('#coupons-title')?.focus({ preventScroll: true });
+  }
+
+  private closeCoupons() { this.coupons()?.close(); }
 
   private loadTrack(index: number) {
     const track = PLAYLIST[index];
@@ -159,6 +177,7 @@ class FloralGift extends HTMLElement {
 
   private reset() {
     this.run++; this.clearTimers(); this.busy = false; this.dataset.phase = 'welcome';
+    if (this.coupons()?.open) this.closeCoupons();
     this.querySelector<HTMLElement>('[data-welcome]')!.inert = false;
     this.querySelector<HTMLElement>('[data-message]')!.inert = true;
     this.querySelector<HTMLButtonElement>('[data-skip]')!.hidden = true;
