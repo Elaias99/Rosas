@@ -7,8 +7,8 @@ const { opened = false } = Astro.props;
 <floral-gift data-phase={opened ? 'message' : 'welcome'} data-opened={String(opened)}>
   <main class="gift">
     <div class="welcome" data-welcome inert={opened}>
-      <img class="corner corner--top" src="/flowers/ivory-posy.webp" alt="" width="180" height="180" aria-hidden="true" />
-      <img class="corner corner--bottom" src="/flowers/rose.webp" alt="" width="150" height="150" aria-hidden="true" />
+      <img class="corner corner--top" src="/flowers/ivory-posy-yellow.webp" alt="" width="180" height="180" aria-hidden="true" />
+      <img class="corner corner--bottom" src="/flowers/rose-yellow.webp" alt="" width="150" height="150" aria-hidden="true" />
       <header class="greeting">
         <p class="eyebrow">UN PEQUEÑO DETALLE PARA TI</p>
         <h1>Hola :)</h1>
@@ -39,7 +39,7 @@ const { opened = false } = Astro.props;
     <button class="skip" type="button" data-skip hidden>Ver mensaje</button>
     <section class="message-wrap" data-message aria-labelledby="message-title" inert={!opened}>
       <div class="message">
-        <img class="message-flower" src="/flowers/ivory-posy.webp" alt="" width="150" height="150" aria-hidden="true" />
+        <img class="message-flower" src="/flowers/ivory-posy-yellow.webp" alt="" width="150" height="150" aria-hidden="true" />
         <p class="eyebrow">ESTAS FLORES SON PARA TI</p>
         <h2 id="message-title" tabindex="-1">Solo quería alegrarte<br class="desktop-break" /> un poquito el día.</h2>
         <p class="message-copy">Ojalá, entre todas estas flores,<br /> encuentres una razón para sonreír.</p>

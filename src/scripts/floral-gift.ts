@@ -23,7 +23,7 @@ class FloralGift extends HTMLElement {
 
   connectedCallback() {
     const signal = this.controller.signal;
-    this.ready = Promise.allSettled(['/flowers/rose.webp', '/flowers/ivory-posy.webp'].map((src) => {
+    this.ready = Promise.allSettled(['/flowers/rose-yellow.webp', '/flowers/ivory-posy-yellow.webp'].map((src) => {
       const image = new Image(); image.src = src; return image.decode();
     }));
     this.loadTrack(0);
@@ -114,7 +114,7 @@ class FloralGift extends HTMLElement {
         const y = row * stride + (rand() - .5) * stride * .36;
         const flower = document.createElement('img');
         flower.className = 'field-flower';
-        flower.src = rand() > .58 ? '/flowers/rose.webp' : '/flowers/ivory-posy.webp';
+        flower.src = rand() > .58 ? '/flowers/rose-yellow.webp' : '/flowers/ivory-posy-yellow.webp';
         flower.alt = ''; flower.width = 512; flower.height = 512;
         const size = stride * (1.85 + rand() * .45);
         const delay = Math.hypot(x - originX, y - originY) / maxDistance * 1.15;
