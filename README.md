@@ -1,46 +1,41 @@
-# Astro Starter Kit: Basics
+# Flores para sacarte una sonrisa
+
+Un detalle floral estático, hecho con Astro y TypeScript. El ramo abre una animación de abundancia floral y después revela un mensaje que se puede volver a ver.
+
+## Desarrollo
+
+Node >=22.12.0.
 
 ```sh
-npm create astro@latest -- --template basics
+npm install
+npm run dev -- --background
+npm run astro -- dev status
+npm run astro -- dev stop
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+En este equipo, si npm falla buscando npm-cli.js en AppData/Roaming, ejecutar primero en PowerShell:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```powershell
+$env:npm_config_prefix='C:\Program Files\nodejs'
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Publicar
 
-## 🧞 Commands
+```sh
+npm run build
+```
 
-All commands are run from the root of the project, from a terminal:
+Subir el **contenido de dist/** a la raíz de un alojamiento estático. Las rutas `/` y `/florecimiento/` funcionan sin backend. No publicar el servidor de desarrollo. El proyecto usa rutas absolutas: para publicarlo bajo una subcarpeta hace falta configurar y aplicar `base` a los recursos y enlaces.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Editar el detalle
 
-## 👀 Want to learn more?
+- `src/components/FloralExperience.astro`: textos, composición y estilos adaptables.
+- `src/scripts/floral-gift.ts`: animación, tiempos, enfoque de teclado y repetición.
+- `src/components/Bouquet.astro`: ramo de portada.
+- `src/components/FlowerField.astro`: jardín estático de respaldo.
+- `src/layouts/Layout.astro`: colores y fuentes locales.
+- `public/flowers/`: ilustraciones WebP optimizadas, con transparencia real.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+La expansión dura unos tres segundos; la abundancia permanece hasta revelar el mensaje a los 5,9 segundos. Se puede saltar con «Ver mensaje». Si el dispositivo solicita movimiento reducido, el mensaje aparece directamente. Sin JavaScript, el enlace lleva a una versión estática del detalle.
+
+Fuentes Caveat y Nunito servidas localmente; no se requiere Google Fonts al abrir ni compilar. Ilustraciones generadas para este proyecto con la herramienta integrada de imágenes; indicaciones guardadas en `ASSETS.md`.

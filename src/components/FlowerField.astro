@@ -1,0 +1,14 @@
+---
+import { seeded } from '../lib/botanical';
+const rand = seeded(200926);
+// Static garden for the direct route, including browsers without JavaScript.
+const flowers = Array.from({ length: 63 }, (_, i) => ({
+  x: (i % 7) * 17 - 1 + rand() * 5,
+  y: Math.floor(i / 7) * 13 - 2 + rand() * 4,
+  rotation: Math.round(rand() * 360),
+  src: i % 3 === 0 ? '/flowers/rose.webp' : '/flowers/ivory-posy.webp',
+}));
+---
+<div class="flower-field" data-field aria-hidden="true">
+  {flowers.map((f) => <img class="field-flower" src={f.src} alt="" width="512" height="512" decoding="async" style={`--x:${f.x}%;--y:${f.y}%;--size:max(24vw, 30vh);--turn:${f.rotation}deg;--delay:0s;--dx:0px;--dy:0px;`} />)}
+</div>

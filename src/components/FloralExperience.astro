@@ -1,0 +1,179 @@
+---
+import Bouquet from './Bouquet.astro';
+import FlowerField from './FlowerField.astro';
+interface Props { opened?: boolean; }
+const { opened = false } = Astro.props;
+---
+<floral-gift data-phase={opened ? 'message' : 'welcome'} data-opened={String(opened)}>
+  <main class="gift">
+    <div class="welcome" data-welcome inert={opened}>
+      <img class="corner corner--top" src="/flowers/ivory-posy.webp" alt="" width="180" height="180" aria-hidden="true" />
+      <img class="corner corner--bottom" src="/flowers/rose.webp" alt="" width="150" height="150" aria-hidden="true" />
+      <header class="greeting">
+        <p class="eyebrow">UN PEQUEÑO DETALLE PARA TI</p>
+        <h1>Hola :)</h1>
+        <p class="intro">Hay flores que también se regalan así.</p>
+      </header>
+      <div class="bouquet-wrap" data-bouquet><Bouquet /></div>
+      <div class="invitation">
+        <a class="cta" href="/florecimiento/" data-open>Abrir mi detalle <span aria-hidden="true">♡</span></a>
+        <p class="hint" data-hint>Hecho con cariño, solo para sacarte una sonrisa.</p>
+      </div>
+    </div>
+    <FlowerField />
+    <div class="message-veil" aria-hidden="true"></div>
+    <audio data-audio preload="none"></audio>
+    <div class="player" data-player hidden>
+      <button class="player__toggle" type="button" data-player-toggle aria-label="Reproducir música">
+        <svg class="player-icon player-icon--play" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 5l12 7-12 7V5Z" fill="currentColor" /></svg>
+        <svg class="player-icon player-icon--pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 5h4v14H6zM14 5h4v14h-4z" fill="currentColor" /></svg>
+      </button>
+      <div class="player__info">
+        <p class="player__title" data-player-title>—</p>
+        <p class="player__artist" data-player-artist>—</p>
+      </div>
+      <button class="player__skip" type="button" data-player-next aria-label="Siguiente canción">
+        <svg class="player-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 5l11 7-11 7V5Z" fill="currentColor" /><rect x="17" y="5" width="2.4" height="14" fill="currentColor" /></svg>
+      </button>
+    </div>
+    <button class="skip" type="button" data-skip hidden>Ver mensaje</button>
+    <section class="message-wrap" data-message aria-labelledby="message-title" inert={!opened}>
+      <div class="message">
+        <img class="message-flower" src="/flowers/ivory-posy.webp" alt="" width="150" height="150" aria-hidden="true" />
+        <p class="eyebrow">ESTAS FLORES SON PARA TI</p>
+        <h2 id="message-title" tabindex="-1">Solo quería alegrarte<br class="desktop-break" /> un poquito el día.</h2>
+        <p class="message-copy">Ojalá, entre todas estas flores,<br /> encuentres una razón para sonreír.</p>
+        <p class="signature">Con cariño <span aria-hidden="true">♡</span></p>
+      </div>
+      <div class="message-actions">
+        <button class="replay" type="button" data-replay hidden>Ver florecer otra vez</button>
+        <a class="back" href="/" data-back>Volver al ramo</a>
+      </div>
+    </section>
+    <p class="sr-only" role="status" data-status></p>
+  </main>
+</floral-gift>
+<script>import '../scripts/floral-gift';</script>
+<style is:global>
+floral-gift { display:block; }
+.gift { position:relative; min-height:100svh; isolation:isolate; overflow:clip; background:var(--cream); }
+.welcome { position:relative; min-height:100svh; padding:clamp(28px,5vh,60px) 24px 28px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; transition:opacity .75s ease; }
+.greeting { position:relative; z-index:1; }
+.eyebrow { margin:0 0 8px; font-size:10px; font-weight:800; letter-spacing:.22em; color:#8a6454; }
+.greeting h1 { margin:0; font:700 clamp(58px,8vw,76px)/1 var(--font-script); }
+.intro { margin:12px 0 0; font-size:14px; color:#806550; }
+.bouquet-wrap { position:relative; z-index:1; width:min(380px,84vw); height:clamp(290px,49svh,450px); margin:8px 0 0; transform-origin:50% 35%; animation:bouquet-arrive 1.2s cubic-bezier(.2,.8,.2,1) backwards; transition:transform 1.2s ease; }
+.invitation { z-index:1; margin-top:8px; }
+.cta { display:inline-flex; align-items:center; justify-content:center; gap:12px; min-height:56px; padding:14px 32px; border-radius:40px; color:var(--paper); background:var(--pink-text); text-decoration:none; font-size:16px; font-weight:800; box-shadow:0 9px 26px #a8456a2b; transition:background .2s,transform .2s,box-shadow .2s; }
+.cta span { font-size:23px; line-height:1; }
+.cta:hover { background:#903553; transform:translateY(-3px); box-shadow:0 12px 30px #a8456a38; }
+.cta:active { transform:translateY(0); }
+.cta[aria-disabled="true"] { cursor:progress; }
+.hint { margin:17px 0 0; max-width:320px; color:#806550; font-size:11px; line-height:1.6; }
+.corner { position:absolute; pointer-events:none; opacity:.68; object-fit:contain; }
+.corner--top { top:-64px; left:-56px; width:clamp(130px,15vw,210px); height:auto; transform:rotate(35deg); }
+.corner--bottom { bottom:-62px; right:-50px; width:clamp(130px,13vw,190px); height:auto; transform:rotate(-30deg); opacity:.5; }
+.flower-field { position:fixed; inset:0; z-index:2; overflow:hidden; visibility:hidden; pointer-events:none; }
+.field-flower { position:absolute; left:var(--x); top:var(--y); width:var(--size); height:var(--size); max-width:none; object-fit:contain; transform:translate(-50%,-50%) rotate(var(--turn)); }
+[data-phase="opening"] .welcome,[data-phase="bloom"] .welcome,[data-phase="message"] .welcome { opacity:0; pointer-events:none; }
+[data-phase="opening"] .bouquet-wrap { transform:scale(1.18); }
+[data-phase="bloom"] .flower-field,[data-phase="message"] .flower-field { visibility:visible; }
+[data-phase="bloom"] .field-flower { animation:flower-open 1.8s cubic-bezier(.19,.75,.27,1) var(--delay) both; }
+.message-veil { position:fixed; inset:0; z-index:3; background:#fbf3e333; opacity:0; visibility:hidden; transition:none; pointer-events:none; }
+.message-wrap { position:absolute; inset:0; z-index:4; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:90px 24px 40px; opacity:0; visibility:hidden; transform:translateY(20px); transition:none; }
+[data-phase="message"] .message-wrap,[data-phase="message"] .message-veil { visibility:visible; opacity:1; transform:none; transition:opacity 1.1s ease,transform 1.1s ease; }
+.message { position:relative; width:min(100%,510px); background:#fffcf4f5; padding:62px 36px 32px; border:1px solid #d8b78d80; border-radius:24px; box-shadow:0 18px 65px #61463224; text-align:center; }
+.message-flower { position:absolute; top:-85px; left:calc(50% - 75px); width:150px; height:150px; object-fit:contain; }
+.message .eyebrow { font-size:9px; margin-bottom:18px; }
+.message h2 { margin:0; font:700 clamp(35px,6vw,46px)/1.14 var(--font-script); text-wrap:balance; }
+.message h2:focus { outline:none; }
+.message-copy { margin:24px 0 0; font-size:14px; line-height:1.9; color:#806550; }
+.signature { margin:25px 0 0; color:var(--pink-text); font:600 27px/1.3 var(--font-script); }
+.message-actions { display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:22px; padding-bottom:64px; }
+.replay,.back,.skip { border:1px solid #b4937060; border-radius:30px; background:#fffcf4f5; color:var(--brown); font:700 12px/1.4 var(--font-body); text-decoration:none; padding:12px 22px; min-height:44px; cursor:pointer; transition:background .2s; }
+.replay:hover,.back:hover,.skip:hover { background:#fff; }
+.back { border-color:transparent; padding:8px 18px; font-size:11px; }
+.skip { position:fixed; z-index:5; top:max(20px,env(safe-area-inset-top)); right:20px; }
+.player { position:fixed; z-index:5; left:50%; bottom:max(18px,env(safe-area-inset-bottom)); transform:translateX(-50%); display:flex; align-items:center; gap:8px; width:min(300px,calc(100vw - 32px)); padding:6px 14px 6px 6px; border-radius:40px; border:1px solid #b4937060; background:#fffcf4f0; box-shadow:0 10px 28px #61463224; opacity:0; transition:opacity .5s ease,transform .5s ease; }
+.player:not([hidden]) { opacity:1; }
+.player__toggle,.player__skip { display:flex; align-items:center; justify-content:center; flex:none; padding:0; border:none; cursor:pointer; }
+.player__toggle { width:36px; height:36px; border-radius:50%; background:var(--pink-text); color:var(--paper); transition:background .2s; }
+.player__toggle:hover { background:#903553; }
+.player__skip { width:28px; height:28px; border-radius:50%; background:transparent; color:var(--brown-soft); transition:background .2s; }
+.player__skip:hover { background:#0000000d; color:var(--brown); }
+.player-icon { width:15px; height:15px; }
+.player-icon--pause { display:none; }
+.player__toggle[data-playing="true"] .player-icon--play { display:none; }
+.player__toggle[data-playing="true"] .player-icon--pause { display:block; }
+.player__info { min-width:0; flex:1; }
+.player__title { margin:0; font-size:12px; font-weight:800; color:var(--brown); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.player__artist { margin:1px 0 0; font-size:10px; color:#806550; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+:where(a,button):focus-visible { outline:3px solid #8b3f60; outline-offset:5px; }
+[hidden] { display:none !important; }
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+@keyframes bouquet-arrive { from { opacity:0; transform:translateY(15px) scale(.95); } to { opacity:1; transform:none; } }
+@keyframes flower-open {
+ from { opacity:0; transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.035) rotate(calc(var(--turn) - 35deg)); }
+ 15% { opacity:1; }
+ to { opacity:1; transform:translate(-50%,-50%) scale(1) rotate(var(--turn)); }
+}
+@media (min-width:1000px) { .bouquet-wrap { width:430px; } }
+@media (hover:hover) and (pointer:fine) {
+ /* Solo en computadoras: el ramo tiene una leve vida propia mientras espera el clic. */
+ [data-phase="welcome"] .bouquet-wrap { animation:bouquet-arrive 1.2s cubic-bezier(.2,.8,.2,1) backwards,bouquet-sway 8s ease-in-out 1.2s infinite; }
+ @keyframes bouquet-sway { 0%,100% { transform:rotate(-.6deg) translateY(0); } 50% { transform:rotate(.6deg) translateY(-4px); } }
+ /* Las flores del campo respiran suavemente una vez que florecieron. */
+ [data-phase="bloom"] .field-flower,[data-phase="message"] .field-flower { animation:flower-open 1.8s cubic-bezier(.19,.75,.27,1) var(--delay) both,flower-sway 7s ease-in-out calc(var(--delay) + 1.8s) infinite; }
+ @keyframes flower-sway { 0%,100% { transform:translate(-50%,-50%) rotate(var(--turn)); } 50% { transform:translate(-50%,-50%) rotate(calc(var(--turn) + 2.4deg)) translateY(-3px); } }
+ /* Apertura del mensaje con más carácter: la tarjeta aterriza con rebote y un resplandor la acompaña. */
+ .message { transform:scale(.82) rotate(-3deg); }
+ .message::before { content:""; position:absolute; inset:-20%; z-index:-1; border-radius:50%; background:radial-gradient(closest-side,#f8d35e55,#f8d35e00 72%); opacity:0; transform:scale(.4); }
+ .message-flower { transform:scale(0) rotate(-40deg); }
+ [data-phase="message"] .message { animation:message-pop 1s cubic-bezier(.2,1.4,.3,1) .15s both; }
+ [data-phase="message"] .message::before { animation:glow-burst 1.6s ease-out .15s both; }
+ [data-phase="message"] .message-flower { animation:flower-pop .6s cubic-bezier(.3,1.6,.4,1) .75s both; }
+ @keyframes message-pop { to { transform:none; } }
+ @keyframes glow-burst { 30% { opacity:1; } to { opacity:0; transform:scale(1.15); } }
+ @keyframes flower-pop { to { transform:none; } }
+}
+@media (max-width:480px) {
+ .welcome { padding:28px 20px 26px; }
+ .eyebrow { font-size:9px; letter-spacing:.18em; }
+ .intro { font-size:12px; margin-top:10px; }
+ .bouquet-wrap { height:clamp(285px,48svh,440px); margin-top:12px; }
+ .cta { font-size:15px; padding-inline:27px; }
+ .hint { max-width:260px; font-size:10px; }
+ .message-wrap { padding-inline:22px; }
+ .message { padding:62px 22px 28px; border-radius:20px; }
+ .message-copy { font-size:12px; }
+ .desktop-break { display:none; }
+}
+@media (max-height:650px) {
+ .welcome { padding-block:20px; }
+ .greeting h1 { font-size:52px; }
+ .bouquet-wrap { height:260px; }
+ .hint { margin-top:12px; }
+ .message-wrap { position:relative; min-height:100svh; padding-top:75px; padding-bottom:20px; }
+ .message { padding-top:52px; padding-bottom:24px; }
+ .message h2 { font-size:31px; }
+ .message .eyebrow { margin-bottom:14px; }
+ .message-copy { margin-top:16px; }
+ .signature { margin-top:15px; }
+ .message-actions { margin-top:14px; gap:4px; }
+ /* Poco alto para flotar abajo sin tapar "Volver al ramo": se mueve arriba
+    a la izquierda, libre una vez que el botón "Ver mensaje" se oculta. */
+ .player { top:max(8px,env(safe-area-inset-top)); left:8px; bottom:auto; right:auto; transform:none; width:min(260px,calc(100vw - 16px)); padding:4px 12px 4px 4px; gap:6px; }
+ .player__toggle { width:30px; height:30px; }
+ .player__skip { width:24px; height:24px; }
+ [data-phase="welcome"] .message-wrap,[data-phase="opening"] .message-wrap,[data-phase="bloom"] .message-wrap { display:none; }
+ [data-phase="message"] .welcome { display:none; }
+}
+@media (prefers-reduced-motion:reduce) {
+ .bouquet-wrap,.field-flower,.message,.message::before,.message-flower { animation:none !important; }
+ .welcome,.message-wrap,.message-veil,.bouquet-wrap { transition:none !important; }
+ .message,.message-flower { transform:none !important; }
+ .message::before { opacity:0 !important; }
+}
+</style>
+
+
